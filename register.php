@@ -35,9 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $error = "❌ Email already registered!";
                 } else {
                     $stmt->close();
+                    $id = 2;
 
                     // Proceed with registration
-                    $stmt = $conn->prepare("INSERT INTO users (name, email, password, address, role) VALUES (?, ?, ?, ?, ?)");
+                    $stmt = $conn->prepare("INSERT INTO users ( name, email, password, address, role) VALUES (?, ?, ?, ?, ?)");
                     if ($stmt === false) {
                         $error = "❌ Prepare insert failed: " . $conn->error;
                         error_log("Prepare insert failed: " . $conn->error);
@@ -178,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($error)): ?>
             <div class="error"><?php echo $error; ?></div>
         <?php endif; ?>
-        <form action="signup.php" method="POST" autocomplete="off">
+        <form  method="POST" autocomplete="off">
             <input type="text" name="name" placeholder="Full Name" required />
             <input type="email" name="email" placeholder="Email" required />
             <input type="password" name="password" placeholder="Password" required minlength="6" autocomplete="new-password" />
@@ -190,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Register</button>
         </form>
         <p class="login-link">Already have an account? <a href="login.php">Log in here</a></p>
-        <p class="home-link"><a href="homepage.html">Return to Homepage</a></p>
+        <p class="home-link"><a href="homepage.php">Return to Homepage</a></p>
     </div>
 </body>
 </html>

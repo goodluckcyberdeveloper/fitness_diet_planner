@@ -3,6 +3,20 @@ ob_start(); // Start output buffering to prevent header errors
 session_start();
 include "config.php";
 
+if (isset($_SESSION["user_id"])) {
+    
+    if ($_SESSION["role"] == 'admin') {
+        header("Location: admin_dashboard.php");
+        exit();
+    } else {
+        header("Location: dashboard.php");
+        exit();
+    }
+}
+
+
+
+
 // Initialize error variable
 $error = "";
 
@@ -88,6 +102,7 @@ if (isset($_SESSION["user_id"])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Log In - Fitness and Diet Planner System</title>
@@ -112,7 +127,7 @@ if (isset($_SESSION["user_id"])) {
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px 40px;
             border-radius: 16px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 420px;
             color: #333;
@@ -178,26 +193,28 @@ if (isset($_SESSION["user_id"])) {
         }
     </style>
 </head>
+
 <body>
-<div class="login-container">
-    <h2>🔐 Log In to Fitness and Diet Planner System</h2>
-    <?php if (!empty($error)): ?>
-        <div class="error"><?php echo $error; ?></div>
-    <?php endif; ?>
-    <form action="login.php" method="POST" autocomplete="off">
-        <label for="email">📧 Email:</label>
-        <input type="email" id="email" name="email" required 
-               autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+    <div class="login-container">
+        <h2>🔐 Log In to Fitness and Diet Planner System</h2>
+        <?php if (!empty($error)): ?>
+            <div class="error"><?php echo $error; ?></div>
+        <?php endif; ?>
+        <form action="login.php" method="POST" autocomplete="off">
+            <label for="email">📧 Email:</label>
+            <input type="email" id="email" name="email" required
+                autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
 
-        <label for="password">🔑 Password:</label>
-        <input type="password" id="password" name="password" required 
-               autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');">
+            <label for="password">🔑 Password:</label>
+            <input type="password" id="password" name="password" required
+                autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');">
 
-        <button type="submit">Log In</button>
-    </form>
-    <div class="footer-link">
-        Don't have an account? <a href="register.php">Register here</a>
+            <button type="submit">Log In</button>
+        </form>
+        <div class="footer-link">
+            Don't have an account? <a href="register.php">Register here</a>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

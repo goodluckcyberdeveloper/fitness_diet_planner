@@ -1,20 +1,29 @@
 <?php
 session_start();
+include "config.php";
 
 // Check if user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Health Information</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -27,6 +36,7 @@ if (!isset($_SESSION["user_id"])) {
             background-attachment: fixed;
             color: #fff;
         }
+
         .header {
             background-color: #27ae60;
             color: #fff;
@@ -35,32 +45,44 @@ if (!isset($_SESSION["user_id"])) {
             font-size: 24px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .header h1 { margin-bottom: 10px; }
-        .header h2 { font-size: 20px; }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+        }
+
         .container {
             display: flex;
             flex: 1;
             margin: 20px;
             justify-content: center;
         }
+
         .form-box {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 350px;
         }
+
         h2 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
         }
+
         label {
             display: block;
             margin-top: 15px;
             color: #555;
         }
-        input[type="number"], input[type="text"] {
+
+        input[type="number"],
+        input[type="text"] , select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -68,6 +90,7 @@ if (!isset($_SESSION["user_id"])) {
             border: 1px solid #ccc;
             box-sizing: border-box;
         }
+
         button {
             margin-top: 20px;
             width: 100%;
@@ -79,9 +102,11 @@ if (!isset($_SESSION["user_id"])) {
             font-size: 16px;
             cursor: pointer;
         }
+
         button:hover {
             background: #219653;
         }
+
         .back-link {
             display: block;
             text-align: center;
@@ -90,11 +115,13 @@ if (!isset($_SESSION["user_id"])) {
             text-decoration: none;
             font-weight: bold;
         }
+
         .back-link:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>Fitness and Diet Planner System</h1>
@@ -106,21 +133,41 @@ if (!isset($_SESSION["user_id"])) {
             <h2>Health Information</h2>
             <form action="process_health.php" method="post" id="healthForm">
                 <label>Weight (kg):</label>
-                <input type="number" name="weight" id="weight" placeholder="Weight (kg)" 
-                       required min="20" max="300" step="0.1" />
+                <input type="number" name="weight" id="weight" placeholder="Weight (kg)"
+                    required min="20" max="300" step="0.1" />
 
                 <label>Height (cm):</label>
-                <input type="number" name="height" id="height" placeholder="Height (cm)" 
-                       required min="50" max="300" step="0.1" />
+                <input type="number" name="height" id="height" placeholder="Height (cm)"
+                    required min="50" max="300" step="0.1" />
 
                 <label>Age (years):</label>
-                <input type="number" name="age" id="age" placeholder="Age (years)" 
-                       required min="10" max="120" />
+                <input type="number" name="age" id="age" placeholder="Age (years)"
+                    required min="10" max="120" />
 
                 <label>Blood Pressure (e.g., 120/80):</label>
-                <input type="text" name="blood_pressure" id="blood_pressure" 
-                       placeholder="Blood Pressure (e.g., 120/80)" 
-                       required pattern="\d{2,3}/\d{2,3}" title="Enter like 120/80" />
+                <input type="text" name="blood_pressure" id="blood_pressure"
+                    placeholder="Blood Pressure (e.g., 120/80)"
+                    required pattern="\d{2,3}/\d{2,3}" title="Enter like 120/80" />
+
+                <!-- <label>Select Diseases:</label> -->
+                <!-- <select name="health_condition" id="disease_id" style="width: 100%;">
+                    <?php
+                    $diseases = "SELECT * FROM diseases";
+                    $result = $conn->query($diseases);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                    ?>
+                            <option value="<?php echo $row['health_condition']; ?>">
+                                <?php echo $row['health_condition']; ?>
+                            </option>
+                    <?php
+                        }
+                    }
+                    ?>
+                </select> -->
+
+
 
                 <button type="submit">Submit Information</button>
             </form>
@@ -128,4 +175,5 @@ if (!isset($_SESSION["user_id"])) {
         </div>
     </div>
 </body>
+
 </html>

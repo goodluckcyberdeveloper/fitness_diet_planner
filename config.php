@@ -1,20 +1,13 @@
 <?php
-// Taarifa za database
-$servername = "localhost";
-$username = "root";
-$password = ""; // Acha tupu kwa XAMPP
-$dbname = "fitness_diet_planner"; // Hakikisha hii ni database yako halisi
+$servername = getenv("DB_HOST");
+$username = getenv("DB_USER");
+$password = getenv("DB_PASS");
+$dbname = getenv("DB_NAME"); // hakikisha database hii ipo kwenye phpMyAdmin
 
-// Jaribu kuunganisha
+// Unda connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Angalia kama kuna kosa
-$conn = mysqli_connect("localhost", "root", "", "fitness_diet_planner");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+// Angalia kama imefanikiwa
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
-
-
-
-?>

@@ -2,10 +2,6 @@
 session_start();
 include "config.php"; // Ensure $conn is MySQLi
 
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Check if user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -28,22 +24,22 @@ $health_data = [
     'activity_level' => null
 ];
 
-try {
-    $stmt = $conn->prepare("SELECT weight, height, blood_pressure, age, activity_level FROM user_health_info WHERE user_id = ?");
-    if ($stmt) {
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
+$stmt = $conn->prepare("SELECT weight, height, blood_pressure, age FROM users WHERE id = ?");
+if ($stmt) {
+    $stmt->bind_param("i", $user_id);
+    if ($stmt->execute()) {
         $result = $stmt->get_result();
         if ($row = $result->fetch_assoc()) {
             $health_data = $row;
         }
-        $stmt->close();
     } else {
-        error_log("Failed to prepare statement: " . $conn->error);
+        error_log("Failed to execute statement: " . $stmt->error);
     }
-} catch (Exception $e) {
-    error_log("Database error: " . $e->getMessage());
+    $stmt->close();
+} else {
+    error_log("Failed to prepare statement: " . $conn->error);
 }
+
 
 // Process health data
 $weight = $health_data['weight'] ? (float)$health_data['weight'] : null;
@@ -253,10 +249,8 @@ if ($age && $age > 50) {
 <body>
     <div class="container">
         <h1>Meal Plan for <?php echo htmlspecialchars($name); ?></h1>
-        <?php if (is_null($stmt) || !$stmt) : ?>
-            <p class="error-message">No health information found. Please enter your health information.</p>
-        <?php endif; ?>
-        <?php if ($bmi || $blood_pressure || $age || $activity_level) : ?>
+        
+        <?php if ($bmi || $blood_pressure || $age ) : ?>
             <h3 class="health-info">Health Information:</h3>
             <ul style="text-align: left;">
                 <?php if ($bmi) : ?>
@@ -278,8 +272,8 @@ if ($age && $age > 50) {
                     <li><strong>Activity Level:</strong> <?php echo htmlspecialchars($activity_level); ?></li>
                 <?php endif; ?>
             </ul>
-        <?php endif; ?>
-        <h2>Health Advice</h2>
+
+            <h2>Health Advice</h2>
         <div class="meal-plan">
             <?php echo htmlspecialchars($personalized_advice); ?>
         </div>
@@ -302,6 +296,11 @@ if ($age && $age > 50) {
                 </tr>
             <?php endforeach; ?>
         </table>
+        <?php else: ?>
+            <div class="error-message">You do not have any details . Please update your health Information</div>
+        <?php endif ?>
+
+        
         <a href="dashboard.php" class="back-button">Back</a>
     </div>
 </body>

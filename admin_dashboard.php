@@ -12,7 +12,7 @@ $user_id = $_SESSION["user_id"];
 $name = $_SESSION["name"] ?? "Admin";
 
 // Fetch all users for admin view
-$stmt_users = $conn->prepare("SELECT id, name, email, role, type FROM users");
+$stmt_users = $conn->prepare("SELECT id, name, email, role FROM users");
 $stmt_users->execute();
 $result_users = $stmt_users->get_result();
 $users = $result_users->fetch_all(MYSQLI_ASSOC);
@@ -33,6 +33,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard - Fitness and Diet Planner System</title>
@@ -50,17 +51,20 @@ $conn->close();
             min-height: 100vh;
             color: #fff;
         }
+
         .header {
             background-color: #27ae60;
             color: white;
             padding: 20px;
             text-align: center;
         }
+
         .container {
             display: flex;
             flex: 1;
             margin: 20px;
         }
+
         .sidebar {
             background-color: rgba(46, 125, 50, 0.95);
             color: white;
@@ -68,6 +72,7 @@ $conn->close();
             padding: 20px;
             border-radius: 8px;
         }
+
         .sidebar a {
             display: block;
             color: white;
@@ -76,7 +81,11 @@ $conn->close();
             margin-bottom: 5px;
             border-radius: 5px;
         }
-        .sidebar a:hover { background-color: #219653; }
+
+        .sidebar a:hover {
+            background-color: #219653;
+        }
+
         .main {
             flex: 1;
             padding: 30px;
@@ -85,30 +94,38 @@ $conn->close();
             margin-left: 20px;
             color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #27ae60;
             padding: 10px;
             text-align: left;
         }
+
         th {
             background-color: #27ae60;
             color: white;
         }
+
         tr:nth-child(even) {
             background-color: rgba(242, 242, 242, 0.95);
         }
+
         .logout {
             color: red;
         }
+
         @media (max-width: 768px) {
             .sidebar {
                 width: 150px;
             }
+
             .main {
                 margin-left: 10px;
                 padding: 15px;
@@ -116,10 +133,11 @@ $conn->close();
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>Fitness and Diet Planner System</h1>
-        <h2>Welcome  <?php echo htmlspecialchars($name); ?>!</h2>
+        <h2>Welcome <?php echo htmlspecialchars($name); ?>!</h2>
     </div>
     <div class="container">
         <div class="sidebar">
@@ -142,7 +160,10 @@ $conn->close();
                         <th>Role</th>
                         <th>Type</th>
                     </tr>
-                    <?php foreach ($users as $user): ?>
+                    <?php foreach ($users as $user):
+                        if ($user['role'] == "admin") {
+                            continue; // skip printing admin in a table of all users
+                        } ?>
                         <tr>
                             <td><?php echo htmlspecialchars($user['id']); ?></td>
                             <td><?php echo htmlspecialchars($user['name']); ?></td>
@@ -180,4 +201,5 @@ $conn->close();
         </div>
     </div>
 </body>
+
 </html>

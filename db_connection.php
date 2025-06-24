@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "fitness_diet_planner"; // hakikisha database hii ipo kwenye phpMyAdmin
+$servername = getenv("DB_HOST");
+$username = getenv("DB_USER");
+$password = getenv("DB_PASS");
+$dbname = getenv("DB_NAME"); // hakikisha database hii ipo kwenye phpMyAdmin
 
 // Unda connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -11,4 +11,3 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-?>

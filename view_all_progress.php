@@ -12,7 +12,7 @@ $user_id = $_SESSION["user_id"];
 $name = $_SESSION["name"] ?? "Admin";
 
 // Fetch all users with type 'normal' or 'patient'
-$stmt = $conn->prepare("SELECT id, name, email, type, diseases, diet_plan, exercise_plan FROM users WHERE type IN ('normal', 'patient')");
+$stmt = $conn->prepare("SELECT id, name, email,role, diseases, diet_plan, exercise_plan FROM users WHERE role IN ('normal', 'patient')");
 $stmt->execute();
 $result = $stmt->get_result();
 $users = $result->fetch_all(MYSQLI_ASSOC);
@@ -137,7 +137,7 @@ $conn->close();
                             <td><?php echo htmlspecialchars($user['id']); ?></td>
                             <td><?php echo htmlspecialchars($user['name']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
-                            <td><?php echo htmlspecialchars($user['type']); ?></td>
+                            <td><?php echo htmlspecialchars($user['role']); ?></td>
                             <td><?php echo htmlspecialchars($user['diseases'] ?? 'N/A'); ?></td>
                             <td><?php echo htmlspecialchars($user['diet_plan'] ?? 'N/A'); ?></td>
                             <td><?php echo htmlspecialchars($user['exercise_plan'] ?? 'N/A'); ?></td>
