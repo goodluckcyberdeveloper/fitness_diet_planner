@@ -7,13 +7,23 @@ if (isset($_SESSION["user_id"])) {
     
     if ($_SESSION["role"] == 'admin') {
         header("Location: admin_dashboard.php");
-        exit();
+        exit();     
     } else {
         header("Location: dashboard.php");
         exit();
     }
 }
-
+if ($user) {
+    if ($user['status'] === 'blocked') {
+        $error = "Your account is blocked. Please contact the administrator.";
+    } else {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['name'] = $user['name'];
+        $_SESSION['role'] = $user['role'];
+        header("Location: dashboard.php");
+        exit();
+    }
+}
 
 
 

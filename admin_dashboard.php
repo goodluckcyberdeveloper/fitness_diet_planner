@@ -12,7 +12,7 @@ $user_id = $_SESSION["user_id"];
 $name = $_SESSION["name"] ?? "Admin";
 
 // Fetch all users for admin view
-$stmt_users = $conn->prepare("SELECT id, name, email, role FROM users");
+$stmt_users = $conn->prepare("SELECT id, name, email, role, type, status FROM users");
 $stmt_users->execute();
 $result_users = $stmt_users->get_result();
 $users = $result_users->fetch_all(MYSQLI_ASSOC);
@@ -148,6 +148,16 @@ $conn->close();
             <a href="logout.php" class="logout">🚪 Logout</a>
         </div>
         <div class="main">
+            <?php
+            if (isset($_SESSION['success'])) {
+                echo '<p style="color: green;">' . htmlspecialchars($_SESSION['success']) . '</p>';
+                unset($_SESSION['success']);
+            }
+            if (isset($_SESSION['error'])) {
+                echo '<p style="color: red;">' . htmlspecialchars($_SESSION['error']) . '</p>';
+                unset($_SESSION['error']);
+            }
+            ?>
             <h3>Users Management</h3>
             <?php if (empty($users)): ?>
                 <p>No users found.</p>
@@ -159,6 +169,8 @@ $conn->close();
                         <th>Email</th>
                         <th>Role</th>
                         <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                     <?php foreach ($users as $user):
                         if ($user['role'] == "admin") {
@@ -170,6 +182,15 @@ $conn->close();
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td><?php echo htmlspecialchars($user['role']); ?></td>
                             <td><?php echo htmlspecialchars($user['type'] ?? 'N/A'); ?></td>
+                            <td><?php echo htmlspecialchars($user['status'] ?? 'active'); ?></td>
+                            <td>
+                                <a href="delete_user.php?id=<?php echo $user['id']; ?>" onclick="return confirm('Are you sure you want to delete this user?');" style="color: red;">Delete</a> |
+                                <?php if ($user['status'] === 'blocked'): ?>
+                                    <a href="unblock_user.php?id=<?php echo $user['id']; ?>" onclick="return confirm('Are you sure you want to unblock this user?');" style="color: green;">Unblock</a>
+                                <?php else: ?>
+                                    <a href="block_user.php?id=<?php echo $user['id']; ?>" onclick="return confirm('Are you sure you want to block this user?');" style="color: orange;">Block</a>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

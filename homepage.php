@@ -28,8 +28,10 @@ if (isset($_SESSION["user_id"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fitness and Diet Planner System - Plan your meals and workouts for a healthier lifestyle. Register or log in now!">
-    <meta name="keywords" content="Fitness and Diet Planner, Diet Planning, Healthy Living, Fitness System, Tanzania, Health">
+    <meta name="description"
+        content="Fitness and Diet Planner System - Plan your meals and workouts for a healthier lifestyle. Register or log in now!">
+    <meta name="keywords"
+        content="Fitness and Diet Planner, Diet Planning, Healthy Living, Fitness System, Tanzania, Health">
     <meta name="author" content="Fitness and Diet Planner Team">
     <!-- Open Graph for social media -->
     <meta property="og:title" content="Fitness and Diet Planner System">
@@ -42,158 +44,158 @@ if (isset($_SESSION["user_id"])) {
     <meta name="twitter:description" content="Plan your meals and workouts for a healthier lifestyle.">
     <title>Fitness and Diet Planner System</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background-image: url('image5.jpg');
-            /* Replace with the correct image name (.jpg, .png, etc.) */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: #fff;
-        }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        background-image: url('image5.jpg');
+        /* Replace with the correct image name (.jpg, .png, etc.) */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+        color: #fff;
+    }
 
-        nav {
-            background-color: #219653;
-            padding: 15px;
-            position: right;
-            justify-items: flex-end;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
+    nav {
+        background-color: #219653;
+        padding: 15px;
+        position: right;
+        justify-items: flex-end;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-        nav a {
-            color: #fff;
-            margin: 0 20px;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-        }
+    nav a {
+        color: #fff;
+        margin: 0 20px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 600;
+    }
 
-        nav a:hover {
-            text-decoration: underline;
-        }
+    nav a:hover {
+        text-decoration: underline;
+    }
 
-        .hero {
-            padding: 60px 20px;
-            background: rgba(0, 0, 0, 0.5);
-        }
+    .hero {
+        padding: 60px 20px;
+        background: rgba(0, 0, 0, 0.5);
+    }
 
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .register-btn,
+    .login-btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background-color: #219653;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .register-btn:hover,
+    .login-btn:hover {
+        background-color: #219653;
+        transform: scale(1.05);
+    }
+
+    .content {
+        display: none;
+        margin: 40px auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Changed to darker background for better contrast */
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 700px;
+        color: #fff;
+        /* Explicitly set text color to white */
+    }
+
+    .content.active {
+        display: block;
+    }
+
+    h2 {
+        color: #fff;
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        text-align: left;
+        margin: 0 auto;
+        max-width: 500px;
+        font-size: 1.1rem;
+    }
+
+    p {
+        font-size: 1.3rem;
+        /* Increased font size for better visibility */
+        font-weight: bold;
+        /* Added bold for emphasis */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        /* Added shadow for readability */
+    }
+
+    a.social-link {
+        color: #27ae60;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+    a.social-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2rem;
         }
 
         .subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            font-size: 1.2rem;
         }
 
         .register-btn,
         .login-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background-color: #219653;
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.2rem;
-            border-radius: 8px;
-            transition: transform 0.2s ease, background-color 0.3s ease;
+            padding: 12px 30px;
+            font-size: 1rem;
         }
 
-        .register-btn:hover,
-        .login-btn:hover {
-            background-color: #219653;
-            transform: scale(1.05);
+        nav a {
+            font-size: 16px;
+            margin: 0 10px;
         }
 
         .content {
-            display: none;
-            margin: 40px auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            /* Changed to darker background for better contrast */
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 700px;
-            color: #fff;
-            /* Explicitly set text color to white */
+            margin: 20px;
+            padding: 20px;
         }
-
-        .content.active {
-            display: block;
-        }
-
-        h2 {
-            color: #fff;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            text-align: left;
-            margin: 0 auto;
-            max-width: 500px;
-            font-size: 1.1rem;
-        }
-
-        p {
-            font-size: 1.3rem;
-            /* Increased font size for better visibility */
-            font-weight: bold;
-            /* Added bold for emphasis */
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            /* Added shadow for readability */
-        }
-
-        a.social-link {
-            color: #27ae60;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        a.social-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1.2rem;
-            }
-
-            .register-btn,
-            .login-btn {
-                padding: 12px 30px;
-                font-size: 1rem;
-            }
-
-            nav a {
-                font-size: 16px;
-                margin: 0 10px;
-            }
-
-            .content {
-                margin: 20px;
-                padding: 20px;
-            }
-        }
+    }
     </style>
 </head>
 
@@ -213,7 +215,8 @@ if (isset($_SESSION["user_id"])) {
     </div>
     <div class="container">
         <div id="home" class="content active">
-            <p>Welcome to the Fitness and Diet Planner System! Join us today to start planning your meals and workouts for a healthier lifestyle.</p>
+            <p>Welcome to the Fitness and Diet Planner System! Join us today to start planning your meals and workouts
+                for a healthier lifestyle.</p>
         </div>
         <div id="help" class="content">
             <h2>Help</h2>
@@ -228,7 +231,8 @@ if (isset($_SESSION["user_id"])) {
         <div id="about" class="content">
             <h2>About</h2>
             <p>Contact and Social Media Information:</p>
-            <p>Email: <a href="mailto:support@fitnessanddietplanner.com" class="social-link">support@fitnessanddietplanner.com</a></p>
+            <p>Email: <a href="mailto:support@fitnessanddietplanner.com"
+                    class="social-link">support@fitnessanddietplanner.com</a></p>
             <p>Phone: +255 123 456 789</p>
             <p>Follow us on:</p>
             <p>
@@ -239,12 +243,12 @@ if (isset($_SESSION["user_id"])) {
         </div>
     </div>
     <script>
-        function showContent(section) {
-            document.querySelectorAll('.content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(section).classList.add('active');
-        }
+    function showContent(section) {
+        document.querySelectorAll('.content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(section).classList.add('active');
+    }
     </script>
 </body>
 

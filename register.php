@@ -9,16 +9,24 @@ $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name'] ?? '');
     $email = trim(strtolower($_POST['email'] ?? '')); // Case-insensitive email
-    $password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
     $address = trim($_POST['address'] ?? '');
     $role = trim($_POST['role'] ?? 'user'); // Default to 'user', allow 'normal' or 'patient'
 
     // Validate input
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "❌ Invalid email format!";
-    } elseif (empty($name) || empty($password) || empty($address)) {
+    } elseif (empty($name) || empty($password) || empty($confirm_password) || empty($address)) {
         $error = "❌ All fields are required!";
+    } elseif ($password !== $confirm_password) {
+        $error = "❌ Passwords do not match!";
+    } elseif (strlen($password) < 6) {
+        $error = "❌ Password must be at least 6 characters!";
     } else {
+        // Hash password only after validation
+        $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+
         // Check if email already exists
         $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
         if ($stmt === false) {
@@ -43,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $error = "❌ Prepare insert failed: " . $conn->error;
                         error_log("Prepare insert failed: " . $conn->error);
                     } else {
-                        $stmt->bind_param("sssss", $name, $email, $password, $address, $role);
+                        $stmt->bind_param("sssss", $name, $email, $password_hashed, $address, $role);
                         if (!$stmt->execute()) {
                             $error = "❌ Insert failed: " . $stmt->error;
                             error_log("Insert failed: " . $stmt->error . " | Data: name=$name, email=$email, role=$role");
@@ -142,6 +150,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 4px;
             box-sizing: border-box;
         }
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .password-container input {
+            width: 100%;
+            padding-right: 40px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 14px;
+            color: #27ae60;
+        }
         button {
             width: 100%;
             background-color: #27ae60;
@@ -179,10 +205,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($error)): ?>
             <div class="error"><?php echo $error; ?></div>
         <?php endif; ?>
-        <form  method="POST" autocomplete="off">
+        <form method="POST" autocomplete="off">
             <input type="text" name="name" placeholder="Full Name" required />
             <input type="email" name="email" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Password" required minlength="6" autocomplete="new-password" />
+            <div class="password-container">
+                <input type="password" name="password" id="password" placeholder="password" required minlength="6" autocomplete="new-password" />
+                <span class="toggle-password" onclick="togglePassword('password')">Show</span>
+            </div>
+            <div class="password-container">
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required minlength="6" autocomplete="new-password" />
+                <span class="toggle-password" onclick="togglePassword('confirm_password')">Show</span>
+            </div>
             <input type="text" name="address" placeholder="Address (street, city)" required />
             <select name="role">
                 <option value="normal">Normal</option>
@@ -193,5 +226,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p class="login-link">Already have an account? <a href="login.php">Log in here</a></p>
         <p class="home-link"><a href="homepage.php">Return to Homepage</a></p>
     </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const toggle = input.nextElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                toggle.textContent = "Hide";
+            } else {
+                input.type = "password";
+                toggle.textContent = "Show";
+            }
+        }
+    </script>
 </body>
 </html>

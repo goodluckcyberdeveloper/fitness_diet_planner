@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
     <meta charset="UTF-8">
-    <title>Tuma Maoni</title>
+    <title>Send feedback</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -91,11 +91,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
-    <h2>Tuma Maoni/Feedback</h2>
+    <h2>Feedback</h2>
     <form  method="POST">
-        <p>Jina: <strong><?= htmlspecialchars($name) ?></strong></p>
-        <textarea name="feedback" placeholder="Andika maoni yako hapa..." ></textarea><br><br>
-        <button type="submit">Tuma</button>
+        <p>Name: <strong><?= htmlspecialchars($name) ?></strong></p>
+        <textarea name="feedback" placeholder="Write your feedback here..." ></textarea><br><br>
+        <button type="submit">submit</button>
     </form>
 
 </body>
